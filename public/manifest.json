@@ -20,6 +20,9 @@
     "run_at": "document_end"
     }
   ],
+  "background": {
+    "page": "background.html"
+  },
   "permissions": ["storage", "activeTab", "tabs"],
   "web_accessible_resources": []
 }

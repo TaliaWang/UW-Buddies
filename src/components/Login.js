@@ -80,6 +80,13 @@ class Login extends Component{
             else{
                 const auth = getAuth();
                 signInWithEmailAndPassword(auth, this.state.email, this.state.password)
+                .then(()=>{
+                    alert("BEFORE SCRIPT: " + JSON.stringify(auth.currentUser));
+                    localStorage.setItem('user', auth.currentUser);
+                    chrome.runtime.sendMessage({user: auth.currentUser}, function(response) {
+                        console.log(response);
+                    });
+                })
                 .catch(error => {
                     alert(error.code + ": " + error.message);
                 });
@@ -94,13 +101,11 @@ class Login extends Component{
                 const auth = getAuth();
                 createUserWithEmailAndPassword(auth, this.state.email, this.state.password)
                 .then(result =>{
-                    alert("NAME" + this.state.name);
                     updateProfile(auth.currentUser,{
                         displayName: this.state.name
                     })
                 })
                 .then(result =>{
-                    alert(JSON.stringify(auth.currentUser)); // TODO remove
                     sendEmailVerification(auth.currentUser)
                     .then(()=>{
                         alert("Confirmation email sent!");
