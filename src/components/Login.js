@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 import firebase from '../firebase.js';
-import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, getIdToken} from 'firebase/auth';
+import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, getIdToken, updateProfile} from 'firebase/auth';
 
 class Login extends Component{
 
@@ -13,7 +13,8 @@ class Login extends Component{
             isLogin: true,
             text: "Log In",
             email: "",
-            password: ""
+            password: "",
+            name: "",
         }
     }
 
@@ -48,6 +49,12 @@ class Login extends Component{
         });
     }
 
+    nameChange(e){
+        this.setState({
+            name: e.target.value
+        });
+    }
+
     toggleShowIntroPage(e){
         if (e.target.id == 'login'){
             this.setState({
@@ -67,35 +74,51 @@ class Login extends Component{
     e.preventDefault();
         if (this.state.isLogin){
             // log in
-            const auth = getAuth();
-            signInWithEmailAndPassword(auth, this.state.email, this.state.password)
-            .catch(error => {
-                alert(error.code + ": " + error.message);
-            });
+            if (this.state.email == "" || this.state.password == ""){
+                alert("Please enter an email and password.");
+            }
+            else{
+                const auth = getAuth();
+                signInWithEmailAndPassword(auth, this.state.email, this.state.password)
+                .catch(error => {
+                    alert(error.code + ": " + error.message);
+                });
+            }
         }
         else{
             // sign up
-            const auth = getAuth();
-            createUserWithEmailAndPassword(auth, this.state.email, this.state.password)
-            .then(result =>{
-                alert(JSON.stringify(auth.currentUser));
-                sendEmailVerification(auth.currentUser)
-                .then(()=>{
-                    alert("Confirmation email sent!");
+            if (this.state.email == "" || this.state.password == "" || this.state.name == ""){
+                alert("Please enter an email, password, and name.");
+            }
+            else{
+                const auth = getAuth();
+                createUserWithEmailAndPassword(auth, this.state.email, this.state.password)
+                .then(result =>{
+                    alert("NAME" + this.state.name);
+                    updateProfile(auth.currentUser,{
+                        displayName: this.state.name
+                    })
                 })
-                .catch(function(error){
-                    alert(error);
+                .then(result =>{
+                    alert(JSON.stringify(auth.currentUser)); // TODO remove
+                    sendEmailVerification(auth.currentUser)
+                    .then(()=>{
+                        alert("Confirmation email sent!");
+                    })
+                    .catch(function(error){
+                        alert(error);
+                    });
+                })
+                .then(result=>{
+                    this.setState({
+                        email: "",
+                        password: ""
+                    });
+                })
+                .catch(error => {
+                    alert(error.code + ": " + error.message);
                 });
-            })
-            .then(result=>{
-                this.setState({
-                    email: "",
-                    password: ""
-                });
-            })
-            .catch(error => {
-                alert(error.code + ": " + error.message);
-            });
+            }
         }
     }
 
@@ -119,6 +142,10 @@ class Login extends Component{
                             }
                             <input type='text' value={this.state.email} onChange={this.emailChange.bind(this)} placeholder="Email"/>
                             <input type='text' value={this.state.password} onChange={this.passwordChange.bind(this)} placeholder="Password"/>
+                            {this.state.isLogin
+                                ? null
+                                : <input type='text' value={this.state.name} onChange={this.nameChange.bind(this)} placeholder="Full Name"/>
+                            }
                             <button type='submit'>Submit</button>
                         </form>
                         <button onClick={this.changeLogInSignUp.bind(this)}>
