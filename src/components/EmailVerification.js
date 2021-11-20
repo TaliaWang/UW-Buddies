@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import firebase from '../firebase.js';
 import {getAuth, signOut, sendEmailVerification} from 'firebase/auth';
+import './css/style.css'
 
 class EmailVerification extends Component{
     constructor(props){
@@ -10,12 +11,12 @@ class EmailVerification extends Component{
         this.state = {
         }
     }
-  
+
     backToLogin(){
         const auth = getAuth();
         signOut(auth);
     }
-  
+
     resendEmail(){
         const auth = getAuth();
         sendEmailVerification(auth.currentUser)
@@ -31,7 +32,7 @@ class EmailVerification extends Component{
             }
         });
     }
-  
+
     render(){
       return(
         <div>
@@ -46,5 +47,5 @@ class EmailVerification extends Component{
       );
     }
   }
-  
+
   export default EmailVerification;

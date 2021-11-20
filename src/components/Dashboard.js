@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import firebase from '../firebase.js';
 import {getAuth, signOut} from 'firebase/auth';
+import './css/style.css'
 
 class Dashboard extends Component{
 

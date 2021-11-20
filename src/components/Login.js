@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import firebase from '../firebase.js';
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, getIdToken, updateProfile} from 'firebase/auth';
+import './css/style.css'
 
 class Login extends Component{
 
@@ -130,8 +131,8 @@ class Login extends Component{
                     <div className='introContainer'>
                         <h1>UW Buddies</h1>
                         <h3>A course selection tool to help you find friends in all of your courses</h3>
-                        <button id='login' onClick={this.toggleShowIntroPage.bind(this)}>Log In</button>
-                        <button id='createAccount' onClick={this.toggleShowIntroPage.bind(this)}>Sign Up</button>
+                        <button className='startPageButtons loginButton' id='login' onClick={this.toggleShowIntroPage.bind(this)}>Log In</button>
+                        <button className='startPageButtons signupButton' id='createAccount' onClick={this.toggleShowIntroPage.bind(this)}>Sign Up</button>
                     </div>
                 :
                     <div className='logInSignUpContainer'>
