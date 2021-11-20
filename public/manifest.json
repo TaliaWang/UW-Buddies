@@ -11,7 +11,7 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "content_security_policy": "script-src 'self' https://apis.google.com  https://www.googleapis.com https://securetoken.googleapis.com https://accounts.google.com https://www.gstatic.com https://*.firebaseio.com https://cdn.firebase.com https://uw-buddies-cf588.firebaseapp.com https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js 'sha256-fPYfOI7+b75TuOyoE3u1VtNX9lf/WogRvv++pHyRjJ4='; object-src 'self' ;",
+  "content_security_policy": "script-src 'self' https://apis.google.com  https://www.googleapis.com https://securetoken.googleapis.com https://accounts.google.com https://www.gstatic.com https://*.firebaseio.com https://cdn.firebase.com https://uw-buddies-cf588.firebaseapp.com https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js 'sha256-N5Fq0cbJO/4YcAZLYuriMIIiKB6aYA/mcw1CanshNpY='; object-src 'self' ;",
   "content_scripts": [
     {
     "matches": ["https://classes.uwaterloo.ca/uwpcshtm.html"],

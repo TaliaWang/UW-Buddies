@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import Login from './components/Login.js';
+import Dashboard from './components/Dashboard.js';
 
 import './App.css';
 import firebase from './firebase.js';
@@ -37,16 +38,16 @@ class App extends Component {
         {this.state.isLoaded
           ?
             // TODO: routing not working
-            /*<BrowserRouter>
-              {this.state.user == null 
-                ? <Link to="login"></Link>
-                : (this.state.user.emailVerified? <Link to="login"></Link> : <Link to="login"></Link>) // TODO: dashboard, emailVerification
-              }
-              <Routes>
-                <Route exact path = "login" element={<Login/>}/>
-              </Routes>
-            </BrowserRouter>*/
-            <Login/>
+            <Router>
+                {this.state.user == null 
+                  ? <Redirect to="/login"/>
+                  : (this.state.user.emailVerified? <Redirect to="/dashboard"/> : <Redirect to="/login"/>) // TODO: emailVerification instead of login
+                }
+              <Switch>
+                <Route exact path = "/login" render={(props) => <Login/>}/>
+                <Route exact path = "/dashboard" render={(props) => <Dashboard/>}/>
+              </Switch>
+            </Router>
           :   
             <div>
               <p>Loading...</p>
