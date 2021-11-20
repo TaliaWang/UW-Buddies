@@ -15,7 +15,7 @@
   "content_scripts": [
     {
     "matches": ["https://classes.uwaterloo.ca/uwpcshtm.html"],
-    "js": ["content.js"],
+    "js": ["renderBuddiesColumn.js", "content.js"],
     "all_frames": true,
     "run_at": "document_end"
     }
