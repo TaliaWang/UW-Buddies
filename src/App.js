@@ -8,7 +8,7 @@ import EmailVerification from './components/EmailVerification.js';
 import './App.css';
 import firebaseApp from './firebase.js';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import {getFirestore, doc, setDoc, updateDoc} from 'firebase/firestore';
+import {getFirestore, doc, setDoc, updateDoc, collection, getDocs, query} from 'firebase/firestore';
 
 class App extends Component {
 
@@ -23,7 +23,7 @@ class App extends Component {
 
   authListener(){
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       this.setState({
         user: user,
         isLoaded: true
@@ -35,7 +35,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     this.authListener();
 
     // listen for subject data passed from webpage, TODO: fire on page reload?
@@ -45,21 +45,41 @@ class App extends Component {
               chrome.tabs.sendMessage(tabs[0].id, {type: 'updateUser', user: request.user});
           });
       }
-      else if (request.type == 'updateSubjects'){
+      // TODO: would have to run this in the app once at the beginning of each term to populate db with all courses/subjects for the term
+      /*else if (request.type == 'updateSubjects'){
         // update subjects in db
         var db = getFirestore(firebaseApp);
         for (var i = 0; i < request.subjects.length; ++i){
-          console.log("SUBJECT: " + request.subjects[i])
+          //console.log("SUBJECT: " + request.subjects[i])
           setDoc(doc(db, "subjects", request.subjects[i]), {
             subject: request.subjects[i],
           }, {
               merge: true
           });
         }
-      }
+      }*/
       sendResponse("response subjects:" + request.subjects);
     });
-  }
+
+    // update number of buddies
+    var db = getFirestore(firebaseApp);
+    const querySnapshot = await getDocs(query(collection(db, "subjects")));
+    var subjects = []
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      console.log(doc.data().subject);
+      if (doc.data().users == null || doc.data().users == undefined){
+        subjects.push({subject: doc.data().subject, users: []});
+      }
+      else{
+        subjects.push({subject: doc.data().subject, users: doc.data().users});
+      }
+    });
+    alert(JSON.stringify(subjects));
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: 'updateBuddies', subjects: subjects});
+    });
+}
 
   render(){
     return (

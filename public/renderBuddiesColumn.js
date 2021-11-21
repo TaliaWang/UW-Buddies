@@ -43,5 +43,23 @@ chrome.extension.onMessage.addListener(function renderColumns(request, sender, s
             }
         }
     }
+    else if (request.type == 'updateBuddies') {
+        subjects = request.subjects;
+        let subjectDict = Object.assign({}, ...subjects.map((x) => ({[x.subject]: x.users})));
+
+        var coursesTableBody = document.getElementsByTagName("table")[1].getElementsByTagName("tbody")[0];
+        var coursesTableRows = coursesTableBody.getElementsByTagName("tr");
+        var firstCellContent = coursesTableBody.getElementsByTagName("td")[0].textContent;
+
+        if (user != null && user != undefined && firstCellContent == "Buddies!") {
+            // skip first row (headers)
+            for (var i = 1; i < coursesTableRows.length; ++i) {
+                var cell = coursesTableRows[i].getElementsByTagName('td')[0];
+                // TODO:
+                cell.textContent = "12";
+                //cell.textContent = subjectDict[coursesTableRows[i].getElementsByTagName('td')[1] + coursesTableRows[i].getElementsByTagName('td')[2]].length.toString();
+            }
+        }
+    }
     sendResponse("success");
 });
