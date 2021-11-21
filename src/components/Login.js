@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import firebase from '../firebase.js';
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, getIdToken, updateProfile} from 'firebase/auth';
+import './css/style.css'
 
 class Login extends Component{
 
@@ -99,11 +100,13 @@ class Login extends Component{
                 const auth = getAuth();
                 createUserWithEmailAndPassword(auth, this.state.email, this.state.password)
                 .then(result =>{
+                    alert("NAME" + this.state.name);
                     updateProfile(auth.currentUser,{
                         displayName: this.state.name
                     })
                 })
                 .then(result =>{
+                    alert(JSON.stringify(auth.currentUser)); // TODO remove
                     sendEmailVerification(auth.currentUser)
                     .then(()=>{
                         alert("Confirmation email sent!");
@@ -132,26 +135,26 @@ class Login extends Component{
                 ?
                     <div className='introContainer'>
                         <h1>UW Buddies</h1>
-                        <h3>A course selection tool to help you find friends in all of your courses</h3>
-                        <button id='login' onClick={this.toggleShowIntroPage.bind(this)}>Log In</button>
-                        <button id='createAccount' onClick={this.toggleShowIntroPage.bind(this)}>Sign Up</button>
+                        <h3 className='introText'>A course search tool to help you find friends in all of your classes</h3>
+                        <button className='startPageButtons' id='login' onClick={this.toggleShowIntroPage.bind(this)}>Log In</button>
+                        <button className='startPageButtons' id='createAccount' onClick={this.toggleShowIntroPage.bind(this)}>Sign Up</button>
                     </div>
                 :
                     <div className='logInSignUpContainer'>
                         <form onSubmit={this.handleLoginSignUp.bind(this)}>
                             {this.state.isLogin
-                                ? <p>Nice to see you again! Please log in below:</p>
-                                : <p>Welcome! Please sign in below:</p>
+                                ? <p className='introText'>Nice to see you again!<br /> Please sign in below:</p>
+                                : <p className='introText'>Welcome! Please sign in below:</p>
                             }
-                            <input type='text' value={this.state.email} onChange={this.emailChange.bind(this)} placeholder="Email"/>
-                            <input type='text' value={this.state.password} onChange={this.passwordChange.bind(this)} placeholder="Password"/>
+                            <input className='emailPasswordTypeBox' type='text' value={this.state.email} onChange={this.emailChange.bind(this)} placeholder="Email"/>
+                            <input className='emailPasswordTypeBox' type='text' value={this.state.password} onChange={this.passwordChange.bind(this)} placeholder="Password"/>
                             {this.state.isLogin
                                 ? null
-                                : <input type='text' value={this.state.name} onChange={this.nameChange.bind(this)} placeholder="Full Name"/>
+                                : <input className='emailPasswordTypeBox' type='text' value={this.state.name} onChange={this.nameChange.bind(this)} placeholder="Full Name"/>
                             }
-                            <button type='submit'>Submit</button>
+                            <button className='startPageButtons' type='submit'>Log in </button>
                         </form>
-                        <button onClick={this.changeLogInSignUp.bind(this)}>
+                        <button className='startPageButtons' onClick={this.changeLogInSignUp.bind(this)}>
                             {this.state.isLogin? 'Create an account' : 'Aready have an account?'}
                         </button>
                     </div>

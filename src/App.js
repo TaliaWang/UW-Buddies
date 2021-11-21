@@ -44,7 +44,7 @@ class App extends Component {
         {this.state.isLoaded
           ?
             <Router>
-                {this.state.user == null 
+                {this.state.user == null
                   ? <Redirect to="/login"/>
                   : (this.state.user.emailVerified? <Redirect to="/dashboard"/> : <Redirect to="/emailVerification"/>) // TODO: emailVerification instead of login
                 }
@@ -54,12 +54,12 @@ class App extends Component {
                 <Route exact path = "/emailVerification" render={(props) => <EmailVerification/>}/>
               </Switch>
             </Router>
-          :   
+          :
             <div>
               <p>Loading...</p>
             </div>
 
-        } 
+        }
       </div>
     );
   }

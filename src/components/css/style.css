@@ -1,0 +1,38 @@
+.startPageButtons {
+
+  border: 2px solid #BA0C2F;
+  border-radius: 5px;
+  color: #BA0C2F;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 8px;
+  margin: 10px auto;
+  transition-duration: 0.4s;
+}
+
+.startPageButtons:hover{
+  background-color: #BA0C2F;
+  color: white;
+  cursor: pointer;
+}
+
+.introText{
+  font-size: 16px;
+  margin: 10px;
+  color: #000000;
+  font-weight: normal;
+}
+
+.emailPasswordTypeBox{
+  border: 0.5px solid #BA0C2F;
+  border-radius: 5px;
+  color: #BA0C2F;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+}

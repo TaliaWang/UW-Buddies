@@ -11,12 +11,12 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "content_security_policy": "script-src 'self' https://apis.google.com  https://www.googleapis.com https://securetoken.googleapis.com https://accounts.google.com https://www.gstatic.com https://*.firebaseio.com https://cdn.firebase.com https://uw-buddies-cf588.firebaseapp.com https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js 'sha256-N5Fq0cbJO/4YcAZLYuriMIIiKB6aYA/mcw1CanshNpY='; object-src 'self' ;",
+  "content_security_policy": "script-src 'self' https://apis.google.com  https://www.googleapis.com https://securetoken.googleapis.com https://accounts.google.com https://www.gstatic.com https://*.firebaseio.com https://cdn.firebase.com https://uw-buddies-cf588.firebaseapp.com https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js 'sha256-DNzTvsZod5GgRsvtzHannUsS+JnnjiPml37uJHZuC1c='; object-src 'self' ;",
   "content_scripts": [
     {
     "matches": ["https://classes.uwaterloo.ca/uwpcshtm.html"],
     "js": ["renderBuddiesColumn.js", "content.js"],
-    "all_frames": true,
+    "css": ["index.css"],    "all_frames": true,
     "run_at": "document_end"
     }
   ],
