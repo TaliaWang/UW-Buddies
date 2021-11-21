@@ -38,10 +38,9 @@ class EmailVerification extends Component{
         <div>
             <div>
               <h1>Almost done!</h1>
-              <p>Please check your email to verify your account.</p>
-              <button onClick={this.resendEmail.bind(this)}>Resend verification email</button>
-              <br/>
-              <button onClick={this.backToLogin.bind(this)}>Go back to login</button>
+              <p className='introText'>Please check your email to verify <br /> your account.</p>
+              <button className= 'startPageButtons' onClick={this.resendEmail.bind(this)}>Resend verification email</button>
+              <button className= 'startPageButtons' onClick={this.backToLogin.bind(this)}>Go back to login</button>
             </div>
         </div>
       );

@@ -24,7 +24,7 @@ class Dashboard extends Component{
         return(
             <div>
                 <h1>Welcome, {this.state.name}</h1>
-                <button onClick={this.backToLogin.bind(this)}>Sign Out</button>
+                <button className='startPageButtons' onClick={this.backToLogin.bind(this)}>Sign Out</button>
             </div>
         );
     }
