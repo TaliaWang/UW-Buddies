@@ -8,7 +8,7 @@ import EmailVerification from './components/EmailVerification.js';
 import './App.css';
 import firebaseApp from './firebase.js';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import {getFirestore, doc, setDoc, updateDoc, collection, getDocs, query} from 'firebase/firestore';
+import {getFirestore, doc, getDoc, updateDoc, collection, getDocs, query} from 'firebase/firestore';
 
 class App extends Component {
 
@@ -70,13 +70,29 @@ class App extends Component {
       console.log(doc.data());
       console.log(doc.data().subject);
       var users = doc.data().users.split(" ");
+      users = users.filter((user) => user != 'defaultuser@default.com');
       console.log(users);
       subjects.push({subject: doc.data().subject, users: users});
     });
-    alert("SUBJECTS: " + JSON.stringify(subjects));
+    //alert("SUBJECTS: " + JSON.stringify(subjects));
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {type: 'updateBuddies', subjects: subjects});
     });
+
+    // highlight subjects this user is in
+    if (this.state.user != null){
+      const docRef = doc(db, "users", this.state.user.email);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        var subjects = docSnap.data().subjects;
+        subjects = subjects.split(',');
+        //alert("before user subject script: " + subjects);
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {type: 'updateUserSubjects', subjects: subjects});
+        });
+      } 
+    }
 }
 
   render(){
