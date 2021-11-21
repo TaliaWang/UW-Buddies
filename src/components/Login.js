@@ -81,6 +81,11 @@ class Login extends Component{
             else{
                 const auth = getAuth();
                 signInWithEmailAndPassword(auth, this.state.email, this.state.password)
+                .then(()=>{
+                    chrome.runtime.sendMessage({type: 'updateUser', user: auth.currentUser}, function(response) {
+                        console.log(response);
+                    });
+                })
                 .catch(error => {
                     alert(error.code + ": " + error.message);
                 });
