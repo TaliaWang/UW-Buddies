@@ -28,7 +28,7 @@ class App extends Component {
         isLoaded: true
       });
       // TODO: fire on page reload
-      chrome.runtime.sendMessage({user: user}, function(response) {
+      chrome.runtime.sendMessage({type: 'updateUser', user: user}, function(response) {
           console.log(response);
       });
     });
