@@ -20,7 +20,14 @@ chrome.extension.onMessage.addListener(function renderColumns(request, sender, s
             // skip first row (headers)
             for (var i=1; i < coursesTableRows.length; ++i){
                 var cellClone = newCell.cloneNode();
-                cellClone.textContent = "0";
+                cells = coursesTableRows[i].getElementsByTagName('td');
+                if (cells.length >= 7){
+                    cellClone.textContent = "0";
+                }
+                else{
+                    // not a row with a subject
+                    cellClone.textContent = " ";
+                }
                 coursesTableRows[i].prepend(cellClone);
             }
         }
