@@ -18,8 +18,14 @@ function updateSubjectsInDatabase(){
             subjects.push(subjectName);
         }
     }
-
-    alert(subjects);
+    chrome.runtime.sendMessage({type: 'updateSubjects', subjects: subjects}, function(response) {
+        console.log(response);
+    });
+    setInterval(function() {
+        chrome.runtime.sendMessage({type: 'updateSubjects', subjects: subjects}, function(response) {
+            console.log(response);
+        });
+    }, 3000);
 }
 
 //START

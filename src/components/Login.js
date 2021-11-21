@@ -1,8 +1,9 @@
 /*global chrome*/
 import React, { Component } from 'react';
 
-import firebase from '../firebase.js';
+import firebaseApp from '../firebase.js';
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, getIdToken, updateProfile} from 'firebase/auth';
+import {getFirestore, doc, setDoc, updateDoc} from 'firebase/firestore';
 import './css/style.css'
 
 class Login extends Component{
@@ -72,7 +73,7 @@ class Login extends Component{
     }
 
     handleLoginSignUp(e){
-    e.preventDefault();
+        e.preventDefault();
         if (this.state.isLogin){
             // log in
             if (this.state.email == "" || this.state.password == ""){
@@ -100,13 +101,18 @@ class Login extends Component{
                 const auth = getAuth();
                 createUserWithEmailAndPassword(auth, this.state.email, this.state.password)
                 .then(result =>{
-                    alert("NAME" + this.state.name);
                     updateProfile(auth.currentUser,{
                         displayName: this.state.name
-                    })
+                    });
+                    
+                    var db = getFirestore(firebaseApp);
+                    setDoc(doc(db, "users", this.state.email), {
+                        name: this.state.name,
+                    }, {
+                        merge: true
+                    });
                 })
                 .then(result =>{
-                    alert(JSON.stringify(auth.currentUser)); // TODO remove
                     sendEmailVerification(auth.currentUser)
                     .then(()=>{
                         alert("Confirmation email sent!");

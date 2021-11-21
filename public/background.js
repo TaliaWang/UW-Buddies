@@ -4,6 +4,5 @@ chrome.runtime.onMessage.addListener(function gotMessage(request, sender, sendRe
             chrome.tabs.sendMessage(tabs[0].id, {type: 'updateUser', user: request.user});
         });
     }
-    sendResponse("success");
 });
 

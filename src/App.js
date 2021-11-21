@@ -27,15 +27,33 @@ class App extends Component {
         user: user,
         isLoaded: true
       });
-      // TODO: fire on page reload
+      // TODO: fire on page reload?
       chrome.runtime.sendMessage({type: 'updateUser', user: user}, function(response) {
           console.log(response);
       });
     });
   }
 
+  updateSubjects(subjects){
+    
+  }
+
   componentDidMount(){
     this.authListener();
+
+    // listen for subject data passed from webpage, TODO: fire on page reload?
+    chrome.runtime.onMessage.addListener(function updateSubjects(request, sender, sendResponse){
+      if (request.type == 'updateUser'){
+          chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {type: 'updateUser', user: request.user});
+          });
+      }
+      else if (request.type == 'updateSubjects'){
+        console.log("REQUEST SUBJECTS: " + request.subjects);
+        updateSubjects(request.subjects);
+      }
+      sendResponse("response subjects:" + request.subjects);
+    });
   }
 
   render(){

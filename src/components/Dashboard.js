@@ -1,7 +1,7 @@
 /*global chrome*/
 import React, { Component } from 'react';
 
-import firebase from '../firebase.js';
+import firebaseApp from '../firebase.js';
 import {getAuth, signOut} from 'firebase/auth';
 import './css/style.css'
 
