@@ -81,8 +81,6 @@ class Login extends Component{
                 const auth = getAuth();
                 signInWithEmailAndPassword(auth, this.state.email, this.state.password)
                 .then(()=>{
-                    alert("BEFORE SCRIPT: " + JSON.stringify(auth.currentUser));
-                    localStorage.setItem('user', auth.currentUser);
                     chrome.runtime.sendMessage({user: auth.currentUser}, function(response) {
                         console.log(response);
                     });
