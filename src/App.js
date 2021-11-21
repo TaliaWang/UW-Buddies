@@ -1,3 +1,4 @@
+/*global chrome*/
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import Login from './components/Login.js';
@@ -26,6 +27,10 @@ class App extends Component {
         user: user,
         isLoaded: true
       });
+      // TODO: fire on page reload
+      chrome.runtime.sendMessage({user: user}, function(response) {
+          console.log(response);
+      });
     });
   }
 
@@ -39,7 +44,7 @@ class App extends Component {
         {this.state.isLoaded
           ?
             <Router>
-                {this.state.user == null 
+                {this.state.user == null
                   ? <Redirect to="/login"/>
                   : (this.state.user.emailVerified? <Redirect to="/dashboard"/> : <Redirect to="/emailVerification"/>) // TODO: emailVerification instead of login
                 }
@@ -49,12 +54,12 @@ class App extends Component {
                 <Route exact path = "/emailVerification" render={(props) => <EmailVerification/>}/>
               </Switch>
             </Router>
-          :   
+          :
             <div>
               <p>Loading...</p>
             </div>
 
-        } 
+        }
       </div>
     );
   }
