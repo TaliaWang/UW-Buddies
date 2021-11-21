@@ -4,7 +4,7 @@ A prototype tool to help UWaterloo students find friends in all of their courses
 
 ## Devpost:
 
-
+https://devpost.com/software/uw-buddies
 
 ## To run:
 
