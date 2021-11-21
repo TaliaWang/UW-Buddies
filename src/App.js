@@ -53,6 +53,7 @@ class App extends Component {
           //console.log("SUBJECT: " + request.subjects[i])
           setDoc(doc(db, "subjects", request.subjects[i]), {
             subject: request.subjects[i],
+            users: "defaultuser@default.com",
           }, {
               merge: true
           });
@@ -65,17 +66,14 @@ class App extends Component {
     var db = getFirestore(firebaseApp);
     const querySnapshot = await getDocs(query(collection(db, "subjects")));
     var subjects = []
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach(async (doc) => {
       console.log(doc.data());
       console.log(doc.data().subject);
-      if (doc.data().users == null || doc.data().users == undefined){
-        subjects.push({subject: doc.data().subject, users: []});
-      }
-      else{
-        subjects.push({subject: doc.data().subject, users: doc.data().users});
-      }
+      var users = doc.data().users.split(" ");
+      console.log(users);
+      subjects.push({subject: doc.data().subject, users: users});
     });
-    alert(JSON.stringify(subjects));
+    alert("SUBJECTS: " + JSON.stringify(subjects));
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {type: 'updateBuddies', subjects: subjects});
     });
