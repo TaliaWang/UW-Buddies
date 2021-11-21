@@ -6,8 +6,9 @@ import Dashboard from './components/Dashboard.js';
 import EmailVerification from './components/EmailVerification.js';
 
 import './App.css';
-import firebase from './firebase.js';
+import firebaseApp from './firebase.js';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import {getFirestore, doc, setDoc, updateDoc} from 'firebase/firestore';
 
 class App extends Component {
 
@@ -34,10 +35,6 @@ class App extends Component {
     });
   }
 
-  updateSubjects(subjects){
-    
-  }
-
   componentDidMount(){
     this.authListener();
 
@@ -49,8 +46,16 @@ class App extends Component {
           });
       }
       else if (request.type == 'updateSubjects'){
-        console.log("REQUEST SUBJECTS: " + request.subjects);
-        updateSubjects(request.subjects);
+        // update subjects in db
+        var db = getFirestore(firebaseApp);
+        for (var i = 0; i < request.subjects.length; ++i){
+          console.log("SUBJECT: " + request.subjects[i])
+          setDoc(doc(db, "subjects", request.subjects[i]), {
+            subject: request.subjects[i],
+          }, {
+              merge: true
+          });
+        }
       }
       sendResponse("response subjects:" + request.subjects);
     });
